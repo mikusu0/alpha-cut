@@ -1,7 +1,5 @@
-from PIL import Image
 from pathlib import Path
 from rembg import remove
-
 
 INPUT = Path("src/alphacut/input")
 OUTPUT = Path("src/alphacut/output")
@@ -27,10 +25,12 @@ def process_image(input_image: Path):
 
     output = remove(input_data)
 
+    if not isinstance(output, bytes):
+        raise TypeError("Expected rembg to return bytes")
+
+
     with output_image.open("wb") as file:
-        file.write(output)
-
-
+        _ = file.write(output)
 
 
 if __name__ == "__main__":
